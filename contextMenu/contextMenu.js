@@ -1,8 +1,8 @@
 export default class ContextMenu {
   constructor (target, template) {
-    this.target = target
+    this.nodes = { target }
     this.template = template
-    this.nodes = {}
+
     this.isOpen = false
 
     this._init()
@@ -19,7 +19,7 @@ export default class ContextMenu {
   }
 
   _initEvents () {
-    this.target.addEventListener('contextmenu', this.open.bind(this))
+    this.nodes.target.addEventListener('contextmenu', this.open.bind(this))
     this.nodes.container.addEventListener('click', this.close.bind(this))
   }
 
@@ -72,8 +72,8 @@ export default class ContextMenu {
   }
 
   _getPosition (left, top) {
-    const largestWidth = this.target.offsetWidth - this.nodes.contextMenu.offsetWidth - 16
-    const largestHeight = this.target.offsetHeight - this.nodes.contextMenu.offsetHeight - 16
+    const largestWidth = this.nodes.target.offsetWidth - this.nodes.contextMenu.offsetWidth - 16
+    const largestHeight = this.nodes.target.offsetHeight - this.nodes.contextMenu.offsetHeight - 16
 
     if (left > largestWidth) {
       left = largestWidth
@@ -92,8 +92,8 @@ export default class ContextMenu {
   open (event) {
     event.preventDefault()
 
-    this.target.appendChild(this.nodes.container)
-    this.target.offsetHeight
+    this.nodes.target.appendChild(this.nodes.container)
+    this.nodes.target.offsetHeight
 
     const position = this._getPosition(event.clientX, event.clientY)
     this.nodes.contextMenu.style.left = `${position.left}px`
@@ -108,7 +108,7 @@ export default class ContextMenu {
       return
     }
 
-    this.target.removeChild(this.nodes.container)
+    this.nodes.target.removeChild(this.nodes.container)
 
     this.isOpen = false
   }
