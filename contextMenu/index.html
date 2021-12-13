@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>contextMenu</title>
+  <link rel="stylesheet" href="contextMenu.css">
+</head>
+<body>
+
+<script type="module" src="contextMenu.js"></script>
+<script type="module">
+  import ContextMenu from './contextMenu.js'
+
+  new ContextMenu(document.body, [
+    { label: '파일 열기...', shortcut: '' },
+    { label: '위치 열기...', },
+    { role: 'separator' },
+    { label: '새로 고침' },
+    { label: '창 닫기' },
+    { label: '탭 닫기' },
+    { role: 'separator' },
+    {
+      label: '공유',
+      submenu: [
+        {
+          label: '이메일',
+          on: {
+            click: () => {
+              console.log('이메일')
+            }
+          }
+        },
+        {
+          label: '메시지',
+          on: {
+            click: () => {
+              console.log('메시지')
+            }
+          }
+        },
+        {
+          label: 'AirDrop',
+          on: {
+            click: () => {
+              console.log('AirDrop')
+            }
+          }
+        },                    
+      ]
+    }      
+  ])
+</script>
+</body>
+</html>
