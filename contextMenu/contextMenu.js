@@ -2,7 +2,7 @@ export default class ContextMenu {
   constructor (stage, template) {
     this.nodes = { stage }
     this.template = template
-    this.position = {}
+
     this.isOpen = false
 
     this._init()
@@ -14,15 +14,15 @@ export default class ContextMenu {
   }
 
   _initRender () {
-    this._initHolder()
+    this._initContainer()
     this._initMenubar()
   }
 
   _initEvents () {
     this.nodes.stage.addEventListener('contextmenu', this.open.bind(this))
-    this.nodes.contextmenu.addEventListener('click', this.close.bind(this))
+    this.nodes.container.addEventListener('click', this.close.bind(this))
 
-    const menuItems = [...this.nodes.contextmenu.querySelectorAll('[role="menuitem"]')]
+    const menuItems = [...this.nodes.container.querySelectorAll('[role="menuitem"]')]
     menuItems.forEach(menuitem => {
       menuitem.addEventListener('mouseenter', (event) => {
         const menu = menuitem.querySelector('[role="menu"]')
@@ -35,15 +35,15 @@ export default class ContextMenu {
     })
   }
 
-  _initHolder () {
-    this.nodes.contextmenu = document.createElement('div')
-    this.nodes.contextmenu.classList.add('contextmenu')
+  _initContainer () {
+    this.nodes.container = document.createElement('div')
+    this.nodes.container.classList.add('contextmenu')
   }
 
   _initMenubar () {
     this.nodes.menubar = this._createContextMenu(this.template)
 
-    this.nodes.contextmenu.appendChild(this.nodes.menubar)
+    this.nodes.container.appendChild(this.nodes.menubar)
   }
 
   _createContextMenu (items) {
@@ -97,7 +97,7 @@ export default class ContextMenu {
   open (event) {
     event.preventDefault()
 
-    this.nodes.stage.appendChild(this.nodes.contextmenu)
+    this.nodes.stage.appendChild(this.nodes.container)
     this.nodes.stage.offsetHeight
 
     const position = this._getPosition(event.clientX, event.clientY)
@@ -113,7 +113,7 @@ export default class ContextMenu {
       return
     }
 
-    this.nodes.stage.removeChild(this.nodes.contextmenu)
+    this.nodes.stage.removeChild(this.nodes.container)
 
     this.isOpen = false
   }
