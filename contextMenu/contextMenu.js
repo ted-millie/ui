@@ -1,8 +1,8 @@
 export default class ContextMenu {
-  constructor (target, template) {
-    this.nodes = { target }
+  constructor (stage, template) {
+    this.nodes = { stage }
     this.template = template
-
+    this.position = {}
     this.isOpen = false
 
     this._init()
@@ -14,24 +14,36 @@ export default class ContextMenu {
   }
 
   _initRender () {
-    this._initContainer()
-    this._initContextMenu()
+    this._initHolder()
+    this._initMenubar()
   }
 
   _initEvents () {
-    this.nodes.target.addEventListener('contextmenu', this.open.bind(this))
-    this.nodes.container.addEventListener('click', this.close.bind(this))
+    this.nodes.stage.addEventListener('contextmenu', this.open.bind(this))
+    this.nodes.contextmenu.addEventListener('click', this.close.bind(this))
+
+    const menuItems = [...this.nodes.contextmenu.querySelectorAll('[role="menuitem"]')]
+    menuItems.forEach(menuitem => {
+      menuitem.addEventListener('mouseenter', (event) => {
+        const menu = menuitem.querySelector('[role="menu"]')
+        if (!menu) {
+          return
+        }
+
+        console.log(menu)
+      })
+    })
   }
 
-  _initContainer () {
-    this.nodes.container = document.createElement('div')
-    this.nodes.container.classList.add('contextmenu-container')
+  _initHolder () {
+    this.nodes.contextmenu = document.createElement('div')
+    this.nodes.contextmenu.classList.add('contextmenu')
   }
 
-  _initContextMenu () {
-    this.nodes.contextMenu = this._createContextMenu(this.template)
+  _initMenubar () {
+    this.nodes.menubar = this._createContextMenu(this.template)
 
-    this.nodes.container.appendChild(this.nodes.contextMenu)
+    this.nodes.contextmenu.appendChild(this.nodes.menubar)
   }
 
   _createContextMenu (items) {
@@ -40,14 +52,7 @@ export default class ContextMenu {
 
     for (const item of items) {
       const menuitem = document.createElement('div')
-      menuitem.setAttribute('role', 'menuitem')
-
-      if (item.role === 'separator') {
-        menuitem.setAttribute('role', 'separator')
-        menu.appendChild(menuitem)
-
-        continue
-      }
+      menuitem.setAttribute('role', item.role || 'menuitem')
 
       if (item.label) {
         menuitem.innerHTML = item.label
@@ -72,8 +77,8 @@ export default class ContextMenu {
   }
 
   _getPosition (left, top) {
-    const largestWidth = this.nodes.target.offsetWidth - this.nodes.contextMenu.offsetWidth - 16
-    const largestHeight = this.nodes.target.offsetHeight - this.nodes.contextMenu.offsetHeight - 16
+    const largestWidth = this.nodes.stage.offsetWidth - this.nodes.menubar.offsetWidth - 16
+    const largestHeight = this.nodes.stage.offsetHeight - this.nodes.menubar.offsetHeight - 16
 
     if (left > largestWidth) {
       left = largestWidth
@@ -92,13 +97,13 @@ export default class ContextMenu {
   open (event) {
     event.preventDefault()
 
-    this.nodes.target.appendChild(this.nodes.container)
-    this.nodes.target.offsetHeight
+    this.nodes.stage.appendChild(this.nodes.contextmenu)
+    this.nodes.stage.offsetHeight
 
     const position = this._getPosition(event.clientX, event.clientY)
-    this.nodes.contextMenu.style.left = `${position.left}px`
-    this.nodes.contextMenu.style.top = `${position.top}px`
-    this.nodes.contextMenu.focus()
+    this.nodes.menubar.style.left = `${position.left}px`
+    this.nodes.menubar.style.top = `${position.top}px`
+    this.nodes.menubar.focus()
 
     this.isOpen = true
   }  
@@ -108,7 +113,7 @@ export default class ContextMenu {
       return
     }
 
-    this.nodes.target.removeChild(this.nodes.container)
+    this.nodes.stage.removeChild(this.nodes.contextmenu)
 
     this.isOpen = false
   }

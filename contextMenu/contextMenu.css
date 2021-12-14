@@ -7,7 +7,7 @@ html, body {
   height: 100%;
 }
 
-.contextmenu-container {
+.contextmenu {
   position: absolute;
   top: 0;
   right: 0;
@@ -16,7 +16,7 @@ html, body {
   z-index: 2147483647;
 }
 
-.contextmenu-container [role="menu"] {
+.contextmenu [role="menu"] {
   position: absolute;
   left: 0;
   top: 0;
@@ -29,11 +29,13 @@ html, body {
   border-radius: 12px;
 }
 
-.contextmenu-container [role="menu"] [role="menu"] {
+.contextmenu [role="menu"] [role="menu"] {
   display: none;
+  margin: 0 8px;
 }
 
-.contextmenu-container [role="menuitem"] {
+.contextmenu [role="menuitem"] {
+  position: relative;
   display: flex;
   align-items: center;
   height: 32px;
@@ -45,12 +47,12 @@ html, body {
   cursor: pointer;
 }
 
-.contextmenu-container [role="menuitem"]:hover {
+.contextmenu [role="menuitem"]:hover {
   background-color: #ececec;
   border-color: #fefefe;
 }
 
-.contextmenu-container [role="separator"] {
+.contextmenu [role="separator"] {
   margin: 4px -4px;
   height: 1px;
   background-color: #ececec;
