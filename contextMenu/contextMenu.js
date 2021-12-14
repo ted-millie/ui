@@ -22,6 +22,7 @@ export default class ContextMenu {
     this.nodes.stage.addEventListener('contextmenu', this.open.bind(this))
     this.nodes.container.addEventListener('click', this.close.bind(this))
 
+    // 2뎁스 이상
     const menuItems = [...this.nodes.container.querySelectorAll('[role="menuitem"]')]
     menuItems.forEach(menuitem => {
       menuitem.addEventListener('mouseenter', (event) => {
@@ -100,9 +101,9 @@ export default class ContextMenu {
     this.nodes.stage.appendChild(this.nodes.container)
     this.nodes.stage.offsetHeight
 
-    const position = this._getPosition(event.clientX, event.clientY)
-    this.nodes.menubar.style.left = `${position.left}px`
-    this.nodes.menubar.style.top = `${position.top}px`
+    const { left, top } = this._getPosition(event.clientX, event.clientY)
+    this.nodes.menubar.style.left = `${left}px`
+    this.nodes.menubar.style.top = `${top}px`
     this.nodes.menubar.focus()
 
     this.isOpen = true
