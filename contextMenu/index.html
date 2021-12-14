@@ -5,14 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>contextMenu</title>
   <link rel="stylesheet" href="contextMenu.css">
+  <style>
+    .ui-app {
+      max-width: 760px;
+      padding: 80px 24px;
+      margin: 0 auto;
+    }
+
+    p {
+      margin: 10px 0;
+    }
+  </style>
 </head>
 <body>
 
-<script type="module" src="contextMenu.js"></script>
-<script type="module">
+  <div class="ui-app">
+    <h1>컨텍스트 메뉴</h1>
+    <p>커스텀 된 컨텍스트 메뉴를 보려면 마우스 오른쪽 버튼을 클릭하세요!🙃</p>
+  </div>
+
+  <script type="module" src="contextMenu.js"></script>
+  <script type="module">
   import ContextMenu from './contextMenu.js'
 
-  new ContextMenu(document.body, [
+  const template = [
     { label: '파일 열기...', shortcut: '' },
     { label: '위치 열기...', },
     { role: 'separator' },
@@ -23,33 +39,14 @@
     {
       label: '공유',
       submenu: [
-        {
-          label: '이메일',
-          on: {
-            click: () => {
-              console.log('이메일')
-            }
-          }
-        },
-        {
-          label: '메시지',
-          on: {
-            click: () => {
-              console.log('메시지')
-            }
-          }
-        },
-        {
-          label: 'AirDrop',
-          on: {
-            click: () => {
-              console.log('AirDrop')
-            }
-          }
-        },                    
+        { label: '이메일' },
+        { label: '메시지' },
+        { label: 'AirDrop' }
       ]
     }      
-  ])
-</script>
+  ]
+
+  new ContextMenu(document.body, template)
+  </script>
 </body>
 </html>
