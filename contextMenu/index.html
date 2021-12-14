@@ -11,9 +11,19 @@
       padding: 80px 24px;
       margin: 0 auto;
     }
-
-    p {
+    .ui-app h1 {
+      font-size: 28px;
+    }
+    .ui-app p {
       margin: 10px 0;
+      color: #666;
+    }
+    .ui-app div {
+      background-color: #8EC5FC;
+      background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
+      height: 300px;
+      margin-top: 32px;
+      border-radius: 12px;
     }
   </style>
 </head>
@@ -22,6 +32,7 @@
   <div class="ui-app">
     <h1>컨텍스트 메뉴</h1>
     <p>커스텀 된 컨텍스트 메뉴를 보려면 마우스 오른쪽 버튼을 클릭하세요!🙃</p>
+    <div id="grabient"></div>
   </div>
 
   <script type="module" src="contextMenu.js"></script>
@@ -47,6 +58,11 @@
   ]
 
   new ContextMenu(document.body, template)
+  new ContextMenu(document.getElementById('grabient'), [
+    { label: '이미지를 다른 이름으로 저장...' },
+    { label: '이미지 복사' },
+    { label: '이미지 주소 복사' }
+  ])
   </script>
 </body>
 </html>

@@ -23,17 +23,17 @@ export default class ContextMenu {
     this.nodes.container.addEventListener('click', this.close.bind(this))
 
     // 2뎁스 이상
-    const menuItems = [...this.nodes.container.querySelectorAll('[role="menuitem"]')]
-    menuItems.forEach(menuitem => {
-      menuitem.addEventListener('mouseenter', (event) => {
-        const menu = menuitem.querySelector('[role="menu"]')
-        if (!menu) {
-          return
-        }
+    // const menuItems = [...this.nodes.container.querySelectorAll('[role="menuitem"]')]
+    // menuItems.forEach(menuitem => {
+    //   menuitem.addEventListener('mouseenter', (event) => {
+    //     const menu = menuitem.querySelector('[role="menu"]')
+    //     if (!menu) {
+    //       return
+    //     }
 
-        console.log(menu)
-      })
-    })
+    //     console.log(menu)
+    //   })
+    // })
   }
 
   _initContainer () {
@@ -78,8 +78,8 @@ export default class ContextMenu {
   }
 
   _getPosition (left, top) {
-    const largestWidth = this.nodes.stage.offsetWidth - this.nodes.menubar.offsetWidth - 16
-    const largestHeight = this.nodes.stage.offsetHeight - this.nodes.menubar.offsetHeight - 16
+    const largestWidth = (this.nodes.stage.offsetWidth + this.nodes.stage.offsetLeft) - this.nodes.menubar.offsetWidth - 16
+    const largestHeight = (this.nodes.stage.offsetHeight + this.nodes.stage.offsetTop) - this.nodes.menubar.offsetHeight - 16
 
     if (left > largestWidth) {
       left = largestWidth
@@ -97,9 +97,10 @@ export default class ContextMenu {
 
   open (event) {
     event.preventDefault()
+    event.stopPropagation()
 
-    this.nodes.stage.appendChild(this.nodes.container)
-    this.nodes.stage.offsetHeight
+    document.body.appendChild(this.nodes.container)
+    document.body.offsetHeight
 
     const { left, top } = this._getPosition(event.clientX, event.clientY)
     this.nodes.menubar.style.left = `${left}px`
@@ -114,7 +115,7 @@ export default class ContextMenu {
       return
     }
 
-    this.nodes.stage.removeChild(this.nodes.container)
+    document.body.removeChild(this.nodes.container)
 
     this.isOpen = false
   }
