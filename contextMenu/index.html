@@ -39,7 +39,7 @@
   <script type="module">
   import ContextMenu from './contextMenu.js'
 
-  const template = [
+  new ContextMenu(document.body, [
     { label: '파일 열기...' },
     { label: '위치 열기...', },
     { role: 'separator' },
@@ -55,9 +55,8 @@
         { label: 'AirDrop' }
       ]
     }      
-  ]
+  ])
 
-  new ContextMenu(document.body, template)
   new ContextMenu(document.getElementById('grabient'), [
     { label: '이미지를 다른 이름으로 저장...' },
     { label: '이미지 복사' },
