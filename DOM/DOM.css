@@ -1,0 +1,20 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+html {
+  overflow-y: scroll;
+}
+
+.container {
+  padding: 56px;
+}
+
+.container div {
+  margin: 10px 0;
+}
