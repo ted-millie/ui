@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zoom</title>
+  <link rel="stylesheet" href="zoom.css">
+</head>
+<body>
+  <div class="canvas" id="canvas">
+    <img src="https://cdn.dribbble.com/users/76454/screenshots/17685328/media/087dd0d6d8b7a65925785b351673752f.png?compress=1&resize=1200x900&vertical=top" width="600" alt="">
+  </div>
+  <script type="module" src="zoom.js"></script>
+  <script type="module">
+    import Zoom from './zoom.js'
+
+    const canvas = document.getElementById('canvas')
+    new Zoom(canvas)
+  </script>
+</body>
+</html>
