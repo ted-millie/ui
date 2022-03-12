@@ -44,9 +44,10 @@ export default class Zoom {
     event.preventDefault()
 
     const { clientX, clientY, deltaX, deltaY, ctrlKey } = event
+    console.log(clientX, clientY)
 
     if (ctrlKey) {
-      this.zoomCamera({ clientX, clientY }, deltaY / 100)
+      this.zoomCamera({ x: clientX, y: clientY }, deltaY / 100)
     } else {
       this.panCamera(deltaX, deltaY)
     }
@@ -62,12 +63,29 @@ export default class Zoom {
   }
 
   zoomCamera (point, deltaZ) {
-    
+    const camera = this.camera
+
+    const zoom = camera.z - deltaZ * camera.z
+    const p1 = this.screenToCanvas(point, camera)
+    const p2 = this.screenToCanvas(point, { ...camera, z: zoom })
+
+    this.camera = {
+      x: camera.x + (p2.x - p1.x),
+      y: camera.y + (p2.y - p1.y),
+      z: zoom
+    }
+  }
+
+  screenToCanvas (point, camera) {
+    return {
+      x: point.x / camera.z - camera.x,
+      y: point.y / camera.z - camera.y,
+    }
   }
 
   updateScreen () {
     const camera = this.camera
 
-    this.nodes.camera.style.transform = `translate(${camera.x}px, ${camera.y}px) scale(${camera.z})`
+    this.nodes.camera.style.transform = `scale(${camera.z}) translate(${camera.x}px, ${camera.y}px)`
   }
 }
